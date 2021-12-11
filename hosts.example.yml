@@ -1,5 +1,5 @@
 all:
   hosts:
-    192.168.1.2:
+    192.168.31.5:
       ansible_user: pi
       ansible_python_interpreter: auto
