@@ -22,24 +22,6 @@
       apt:
         upgrade: dist
         update_cache: true
-        
-    # Set Static IP of PiHole so other devices can query it for DNS lookups
-    # - name: Install network manager
-    #   become: true
-    #   apt:
-    #     name: network-manager
-    #     state: present
-    # - name: configure network
-    #   become: true
-    #   community.general.nmcli:
-    #     state: present
-    #     conn_name: eth0
-    #     ifname: eth0
-    #     type: ethernet
-    #     ip4: 192.168.1.2/24
-    #     gw4: 192.168.1.1
-    #     dns4:
-    #       - 1.1.1.2
     
     # Ensure timestamps are in my local timezone
     - name: set timezone
@@ -87,7 +69,12 @@
     - name: add docker repository to apt
       become: true
       apt_repository:
-        repo: deb [arch=armhf signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable
+        # we won't try to sign the repo. If we do, we get: "Failed to update apt cache: W:GPG error:
+        # https://download.docker.com/linux/debian buster InRelease: The following signatures couldn't
+        # be verified because the public key is not available: NO_PUBKEY 7EA0A9C3F273FCD8,
+        # E:The repository 'https://download.docker.com/linux/debian buster InRelease' is not signed."
+        # repo: deb [arch=armhf signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian buster stable
+        repo: deb [arch=armhf] https://download.docker.com/linux/debian buster stable
         state: present
     - name: install docker
       become: true
@@ -192,20 +179,4 @@
       ufw:
         state: enabled
         default: deny
-    
-    # Set PiHole (Web Admin) password, referenced above. 
-    # I'm using 1Password, but you could use any secret store.
-    # - name: Set Pi-Hole secret
-    #   copy:
-    #     dest: /home/pi/pi-hole/.pihole_web_password
-    #     content: "{{ lookup('community.general.onepassword', 'Raspberry pi', field='password') }}"
-
-    # - name: Create and start docker compose services
-    #   community.docker.docker_compose:
-    #     # Change to path to your docker-compose.yml. See below for how to clone a repo
-    #     project_src: /home/pi/pi-hole
-    #     pull: true
-    #     build: true
-    #     remove_orphans: true
-    #   register: output
   
