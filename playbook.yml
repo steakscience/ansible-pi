@@ -5,7 +5,7 @@
       authorized_key:
         user: pi
         state: present
-        key: https://github.com/benbalter.keys
+        key: https://github.com/steakscience.keys
 
     # Ensure PiHole password is not the default
     # Here I'm using 1Password as my secret store, but you could use another source
