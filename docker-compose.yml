@@ -19,3 +19,7 @@ services:
     volumes:
       - ./adguard-work:/opt/adguardhome/work
       - ./adguard-conf:/opt/adguardhome/conf
+
+    networks:
+      net:
+        ipv4_address: 192.168.31.5

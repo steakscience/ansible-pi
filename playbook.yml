@@ -179,4 +179,12 @@
       ufw:
         state: enabled
         default: deny
+    - name: Create and start docker compose services
+      community.docker.docker_compose:
+        # Change to path to your docker-compose.yml. See below for how to clone a repo
+        project_src: /home/pi/pi-hole
+        pull: true
+        build: true
+        remove_orphans: true
+      register: output
   
