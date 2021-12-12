@@ -187,4 +187,6 @@
         build: true
         remove_orphans: true
       register: output
+      vars:
+        ansible_python_interpreter: /usr/bin/python3
   
